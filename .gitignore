@@ -1,0 +1,5 @@
+.*.un~
+*.*~
+*.ipynb_checkpoint*
+*.pyc
+*tar*
