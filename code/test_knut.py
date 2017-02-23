@@ -1,3 +1,4 @@
-from data import V, E, R, C, X, S
+from data import latencies, requests
 
-print(S)
+print(latencies)
+print(requests)

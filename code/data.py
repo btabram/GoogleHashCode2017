@@ -12,31 +12,40 @@ def get_file(filename):
     C = int(info[3])
     X = int(info[4])
 
+    # Movie sizes in MB
+    movie_sizes = np.zeros(V, dtype=int)
     info = f.readline().split()
-    S = np.empty(V, dtype=int)
     for i,v  in enumerate(info):
-        S[i] = int(v)
+        movie_sizes[i] = int(v)
 
-    latenc
+    # Data centre latencies per endpoint
+    latencies = np.zeros((E, C+1), dtype=int)
+    # Caches per endpoint
+    num_caches = np.zeros(E, dtype=int)
 
-#    A = np.empty((R, C), dtype=float)
-#    for i in range(R):
-#        row = f.readline()
-#        for j in range(C):
-#            if row[j] == 'T':
-#                A[i,j] = 1.0
-#            else:
-#                A[i,j] = 0.0
-#    f.close()
-#
-    return V, E, R, C, X, S
+    for e in range(E):
+        info = f.readline().split()
+        latencies[e, -1] = int(info[0])
+        num_caches[e] = int(info[1])
+        for c in range(num_caches[e]):
+            info = f.readline().split()
+            latencies[e, int(info[0])] = int(info[1])
 
-#""" $ python main.py input """
+    # Requests 
+    requests = np.zeros((V, E), dtype=int)
+    for line in f.readlines():
+        info = line.split()
+        requests[int(info[0]), int(info[1])] = int(info[2])
+
+    f.close()
+    return V, E, R, C, X, movie_sizes, latencies, num_caches, requests
+
+""" $ python main.py PATHTOPIZZA """
 path = sys.argv[1]
 path = '../input/' + path + '.in'
-V, E, R, C, X, S = get_file(path)
+V, E, R, C, X, movie_sizes, latencies, num_caches, requests = get_file(path)
 
 """ 
     At the top of your file, write:
-    from data import R, C, L, H
+    from data import V, E, R, C, X, movie_sizes, ...
 """
