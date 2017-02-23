@@ -85,6 +85,19 @@ class Endpoint(object):
         sorted_caches = [self.caches[r] for r in ranking]
         return sorted_caches
 
+    def get_fastest_cache(self,video):
+        '''
+        find caches with the least latency
+        '''
+        requests = requests_per_cache( self.caches, video)
+        latencies = latency_per_cache( self.caches, self)
+        requests_by_latencies = [ requests[i]/latencies[i] for i in range(len(requests)) ]
+        ranking = sorted(range(len(requests_by_latencies)), key=lambda k: -requests_by_latencies[k])
+        sorted_caches = [self.caches[r] for r in ranking]
+        return sorted_caches
+                
+
+
 # misc functions
 
 def move_video( video, from_point, to_point):
@@ -104,10 +117,16 @@ def requests_per_cache( caches, video):
     requests = []
     for cache in caches:
         request = 0
-        for endpoints in caches.endpoints:
+        for endpoint in cache.endpoints:
             request += endpoint.get_requests(video)
-        requests.append[request]
+        requests.append(request)
     return requests
+
+def latency_per_cache( caches, endpoint):
+    latencies = []
+    for cache in caches:
+        latencies.append( endpoint.cache_latencies[ endpoint.caches.index(cache) ])
+    return latencies
 
 #def greedy_sort_requests_per_cache( caches, videos):
 #    for video in videos:

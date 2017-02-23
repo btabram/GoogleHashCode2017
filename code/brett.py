@@ -25,10 +25,15 @@ def get_requests():
         first index is endpoints
         second is videos
     """
-    reqs = np.zeros((E,V), dtype=int)
+    reqs = np.zeros((R, 3))
+
     for e in range(0,E):
         for v in range(0,V):
-            reqs[e,v] = endpoints[e].get_requests(videos[v])
+            number = endpoints[e].get_requests(videos[v])
+            if number!=0:
+                reqs[:,0] = number
+                reqs[:,1] = e
+                reqs[:,2] = v
     return reqs
 
 def do_the_stuff():
@@ -36,7 +41,10 @@ def do_the_stuff():
     requests = get_requests()
 
     # loop over all requests
+    oneperc = np.ceil(R/100)
     for i in range(0,R):
+        if i%oneperc==0:
+            print(i/R, '% complete')
 
         # get the biggest request
         max_v, max_e = find_max_request(requests)
@@ -58,8 +66,14 @@ def do_the_stuff():
 
 def write():
     # assumption that we will be using all the caches
-    print(C)
+    
+    count = 0
+    for c in caches:
+        if len(c.videos) != 0:
+            count = count + 1
+    print(count)
 
+    it = 1
     for c in caches:
         # print(len(c.videos))
         print(caches.index(c), end='')
@@ -68,4 +82,8 @@ def write():
             print(' ' + str(videos.index(v)), end='')
         # print newline at the end
         print()
+        # stop when we've done all the caches we're using
+        if it == count:
+            break
+        it = it + 1
 
