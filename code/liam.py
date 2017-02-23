@@ -7,24 +7,30 @@ class Cache(object):
         storage : float, num megabytes of available storage
         '''
         self.total_storage = storage
-        self.videos = []
         self.storage = storage
+        self.videos = []
+        self.endpoints = []
+        self.endpoint_latencies = []
 
     def add_video(self, video):
         '''
         Add video. If succesful, return True. Otherwise False
         '''
-        if storage>=video.memory:
+        if self.storage >= video.memory:
             self.videos.append(video)
             self.storage -= video.memory
             return True
         return False
 
+    def add_endpoint(self,endpoint,endpoint_latency):
+        self.endpoints.append(endpoint)
+        self.endpoint_latencies.append(endpoint)
+
     def remove_video(self,video):
         '''
         Remove video. If succesful, returns true. Otherwise, false.
         '''
-        if video in videos:
+        if video in self.videos:
             self.videos.remove(video)
             self.storage += video.memory
             return True
@@ -52,6 +58,7 @@ class Endpoint(object):
     def add_cache(self, cache, latency):
         self.caches.append(cache)
         self.cache_latencies.append(latency)
+        cache.add_endpoint(self,latency)
 
     def add_video(self, video, requests):
         self.videos.append(video)
@@ -61,8 +68,8 @@ class Endpoint(object):
         '''
         given video, find how many requests it has
         '''
-        if video in videos:
-            return requests.index(video)
+        if video in self.videos:
+            return self.requests.index(video)
         return 0
 
 def move_video( video, from_point, to_point):
