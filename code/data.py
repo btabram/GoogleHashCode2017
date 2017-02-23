@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+from liam import Cache, Video, Endpoint
 
 def get_file(filename):
 
@@ -12,38 +13,39 @@ def get_file(filename):
     C = int(info[3])
     X = int(info[4])
 
-    # Movie sizes in MB
-    movie_sizes = np.zeros(V, dtype=int)
-    info = f.readline().split()
-    for i,v  in enumerate(info):
-        movie_sizes[i] = int(v)
+    caches = [Cache(X) for c in range(C)]
+    videos = []
+    endpoints = []
 
-    # Data centre latencies per endpoint
-    latencies = np.zeros((E, C+1), dtype=int)
-    # Caches per endpoint
-    num_caches = np.zeros(E, dtype=int)
+
+    info = f.readline().split()
+    for v in info:
+        videos.append(Video(int(v)))
 
     for e in range(E):
         info = f.readline().split()
-        latencies[e, -1] = int(info[0])
-        num_caches[e] = int(info[1])
-        for c in range(num_caches[e]):
+        network_latency = int(info[0])
+        num_caches = int(info[1])
+        endpoints.append(Endpoint(network_latency))
+        for c in range(num_caches):
             info = f.readline().split()
-            latencies[e, int(info[0])] = int(info[1])
+            endpoints[e].add_cache(caches[int(info[0])], int(info[1]))
 
     # Requests 
-    requests = np.zeros((V, E), dtype=int)
     for line in f.readlines():
         info = line.split()
-        requests[int(info[0]), int(info[1])] = int(info[2])
+        v = int(info[0])
+        e = int(info[1])
+        nr = int(info[2])
+        endpoints[e].add_video(videos[v], nr)
 
     f.close()
-    return V, E, R, C, X, movie_sizes, latencies, num_caches, requests
+    return V, E, R, C, X, caches, videos, endpoints
 
 """ $ python main.py PATHTOPIZZA """
 path = sys.argv[1]
 path = '../input/' + path + '.in'
-V, E, R, C, X, movie_sizes, latencies, num_caches, requests = get_file(path)
+V, E, R, C, X, caches, videos, endpoints = get_file(path)
 
 """ 
     At the top of your file, write:
