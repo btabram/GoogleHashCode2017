@@ -16,7 +16,7 @@ class Cache(object):
         '''
         Add video. If succesful, return True. Otherwise False
         '''
-        if not video in self.videos:
+        if not (video in self.videos):
             if self.storage >= video.memory:
                 self.videos.append(video)
                 self.storage -= video.memory
