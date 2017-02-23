@@ -25,10 +25,15 @@ def get_requests():
         first index is endpoints
         second is videos
     """
-    reqs = np.zeros((E,V), dtype=int)
+    reqs = np.zeros((R, 3))
+
     for e in range(0,E):
         for v in range(0,V):
-            reqs[e,v] = endpoints[e].get_requests(videos[v])
+            number = endpoints[e].get_requests(videos[v])
+            if number!=0:
+                reqs[:,0] = number
+                reqs[:,1] = e
+                reqs[:,2] = v
     return reqs
 
 def do_the_stuff():
