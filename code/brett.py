@@ -42,8 +42,10 @@ def do_the_stuff():
         max_v, max_e = find_max_request(requests)
 
         # stopping criteria here because we're done all requests. Just a loop counter?
+        """
         if max_v == -1:
             print('dealt with all requests')
+        """
 
         # get the caches associated with the max endpoint, sorted in order of best-ness
         max_caches = endpoints[max_e].get_best_cache()
