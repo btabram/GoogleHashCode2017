@@ -25,33 +25,40 @@ def get_requests():
         first index is endpoints
         second is videos
     """
-    reqs = np.zeros((R, 3))
+    reqs = np.zeros((R, 3), dtype=int)
 
+    i = 0
     for e in range(0,E):
         for v in range(0,V):
             number = endpoints[e].get_requests(videos[v])
-            if number!=0:
-                reqs[:,0] = number
-                reqs[:,1] = e
-                reqs[:,2] = v
+            if number != 0:
+                reqs[i,0] = number
+                reqs[i,1] = e
+                reqs[i,2] = v
+                i = i + 1
+    #print(R, i)
     return reqs
 
 def do_the_stuff():
     # get array of requests
     requests = get_requests()
+    
+    requests[::-1] = np.sort(requests, axis=0)
+    #print(requests)
 
     # loop over all requests
-    oneperc = np.ceil(R/100)
+    #oneperc = np.ceil(R/100)
     for i in range(0,R):
-        if i%oneperc==0:
-            print(i/R, '% complete')
+        #if i%oneperc==0:
+        #print(i/R, '% complete')
 
         # get the biggest request
-        max_v, max_e = find_max_request(requests)
+        max_e = requests[i,1]
+        max_v = requests[i,2]
 
         # stopping criteria here because we're done all requests. Just a loop counter?
-        if max_v == -1:
-            print('dealt with all requests')
+        # if max_v == -1:
+        #     print('dealt with all requests')
 
         # get the caches associated with the max endpoint, sorted in order of best-ness
         max_caches = endpoints[max_e].get_best_cache()
