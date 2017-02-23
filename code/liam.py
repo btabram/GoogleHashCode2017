@@ -76,9 +76,11 @@ class Endpoint(object):
         ''' 
         find the best cache - the one which has fewest other nodes
         '''
-        ranking = [] * len(self.caches)
-        for c in self.caches:
+        num_endpoints = []
+        for i,c in enumerate(self.caches):
+            num_endpoints.append(len(c.endpoints))
 
+        ranking = sorted(range(len(num_endpoints)), key=lambda k: num_endpoints[k])
         return ranking
 
 
