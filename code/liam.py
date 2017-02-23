@@ -13,11 +13,17 @@ class Cache(object):
         self.latencies = latencies
         self.num_endpoints = len(endpoints)
         self.videos = []
-        self.remaining_storage = storage
+        self.storage = storage
 
-    def add_video(self, video, requests):
+    def add_video(self, video):
         self.videos.append(video)
-        remaining_storage -= video.memory
+        self.storage -= video.memory
+
+    def remove_video(self,video):
+        if( video in videos ):
+            self.videos.remove(video)
+            self.storage += video.memory
+
 
 class Video(object):
     def __init__(self,memory):
