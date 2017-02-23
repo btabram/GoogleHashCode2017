@@ -16,10 +16,11 @@ class Cache(object):
         '''
         Add video. If succesful, return True. Otherwise False
         '''
-        if self.storage >= video.memory:
-            self.videos.append(video)
-            self.storage -= video.memory
-            return True
+        if not video in self.videos:
+            if self.storage >= video.memory:
+                self.videos.append(video)
+                self.storage -= video.memory
+                return True
         return False
 
     def add_endpoint(self,endpoint,endpoint_latency):
@@ -83,6 +84,7 @@ class Endpoint(object):
         ranking = sorted(range(len(num_endpoints)), key=lambda k: num_endpoints[k])
         return ranking
 
+# misc functions
 
 def move_video( video, from_point, to_point):
     '''
@@ -105,4 +107,11 @@ def requests_per_cache( caches, video):
             request += endpoint.get_requests(video)
         requests.append[request]
     return requests
-            
+
+#def greedy_sort_requests_per_cache( caches, videos):
+#    for video in videos:
+#        requests = requests_per_cache( caches, video)
+#        for request,idx in enumerate(requests):
+#            if caches[idx].add_video(video):
+#                break
+#    return caches
