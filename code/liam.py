@@ -78,7 +78,3 @@ def move_video( video, from_point, to_point):
         return True
     return False
 
-def OOify( V,E,R,C,X,video_sizes,latencies,num_caches,requests):
-    videos=[]
-    for size in video_sizes:
-        videos.append(Video(size))
