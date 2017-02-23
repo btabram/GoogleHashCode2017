@@ -85,3 +85,12 @@ def move_video( video, from_point, to_point):
         return True
     return False
 
+def requests_per_cache( caches, video):
+    requests = []
+    for cache in caches:
+        request = 0
+        for endpoints in caches.endpoints:
+            request += endpoint.get_requests(video)
+        requests.append[request]
+    return requests
+            
