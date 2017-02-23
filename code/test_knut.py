@@ -1,4 +1,5 @@
-from data import latencies, requests
+from liam import Cache, Video, Endpoint
+from data import V, E, R, C, X, caches, videos, endpoints
 
-print(latencies)
-print(requests)
+for c in caches: 
+    print(c.total_storage)
