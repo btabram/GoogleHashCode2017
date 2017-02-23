@@ -82,7 +82,8 @@ class Endpoint(object):
             num_endpoints.append(len(c.endpoints))
 
         ranking = sorted(range(len(num_endpoints)), key=lambda k: num_endpoints[k])
-        return ranking
+        sorted_caches = [self.caches[r] for r in ranking]
+        return sorted_caches
 
 # misc functions
 
