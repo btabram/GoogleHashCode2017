@@ -56,8 +56,14 @@ def do_the_stuff():
 
 def write():
     # assumption that we will be using all the caches
-    print(C)
+    
+    count = 0
+    for c in caches:
+        if len(c.videos) != 0:
+            count = count + 1
+    print(count)
 
+    it = 1
     for c in caches:
         # print(len(c.videos))
         print(caches.index(c), end='')
@@ -66,4 +72,8 @@ def write():
             print(' ' + str(videos.index(v)), end='')
         # print newline at the end
         print()
+        # stop when we've done all the caches we're using
+        if it == count:
+            break
+        it = it + 1
 
