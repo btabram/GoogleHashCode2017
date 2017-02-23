@@ -27,6 +27,7 @@ def get_requests():
     """
     reqs = np.zeros((R, 3), dtype=int)
 
+
     i = 0
     for e in range(0,E):
         for v in range(0,V):
@@ -42,9 +43,8 @@ def get_requests():
 def do_the_stuff():
     # get array of requests
     requests = get_requests()
-    
-    requests[::-1] = np.sort(requests, axis=0)
-    #print(requests)
+
+    requests[::-1] = requests[np.argsort(requests[:,0])]
 
     # loop over all requests
     #oneperc = np.ceil(R/100)
@@ -73,7 +73,7 @@ def do_the_stuff():
 
 def write():
     # assumption that we will be using all the caches
-    
+
     count = 0
     for c in caches:
         if len(c.videos) != 0:
