@@ -69,7 +69,7 @@ class Endpoint(object):
         given video, find how many requests it has
         '''
         if video in self.videos:
-            return self.requests[self.requests.index(video)]
+            return self.requests[self.videos.index(video)]
         return 0
 
 def move_video( video, from_point, to_point):
