@@ -59,7 +59,7 @@ def write():
     print(C)
 
     for c in caches:
-        print(len(c.videos))
+        # print(len(c.videos))
         for v in c.videos:
             # print out the video numbers on the same line, space separated
             print(' ', videos.index(v), end='')
