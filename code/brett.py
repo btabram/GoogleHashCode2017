@@ -46,7 +46,7 @@ def do_the_stuff():
             print('dealt with all requests')
 
         # get the caches associated with the max endpoint, sorted in order of best-ness
-        max_caches = endpoints[max_e].caches
+        max_caches = endpoints[max_e].get_best_cache()
 
         # try and add the video to the best cache, and then the others
         for cache in max_caches:
@@ -60,10 +60,10 @@ def write():
 
     for c in caches:
         # print(len(c.videos))
+        print(caches.index(c), end='')
         for v in c.videos:
             # print out the video numbers on the same line, space separated
-            print(' ', videos.index(v), end='')
-
-    # print newline at the end
-    print()
+            print(' ' + str(videos.index(v)), end='')
+        # print newline at the end
+        print()
 
