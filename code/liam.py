@@ -61,16 +61,22 @@ class Endpoint(object):
         self.cache_latencies.append(latency)
         cache.add_endpoint(self,latency)
 
-    def add_video(self, video, requests):
-        self.videos.append(video)
-        self.requests.append(requests)
+    def add_video(self, video, request):
+        if video in self.videos:
+            self.requests[self.videos.index(video)] += request
+        else:
+            self.videos.append(video)
+            self.requests.append(request)
 
     def get_requests(self,video):
         '''
         given video, find how many requests it has
         '''
-        if video in self.videos:
-            return self.requests[self.videos.index(video)]
+        if (video in self.videos):
+            result = self.requests[self.videos.index(video)]
+            if  result <= 0:
+                print(result)
+            return result
         return 0
 
     def get_best_cache(self):
