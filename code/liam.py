@@ -65,6 +65,16 @@ class Endpoint(object):
             return requests.index(video)
         return 0
 
+    def get_best_cach(self):
+        ''' 
+        find the best cache - the one which has fewest other nodes
+        '''
+        ranking = [] * len(self.caches)
+        for c in self.caches:
+
+        return ranking
+
+
 def move_video( video, from_point, to_point):
     '''
     move video from from_point to to_point.
