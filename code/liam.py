@@ -2,16 +2,11 @@
 # Google hashcode 2017
 
 class Cache(object):
-    def __init__(self, storage, endpoints, latencies):
+    def __init__(self, storage):
         '''
         storage : float, num megabytes of available storage
-        endpoints : array-like, list of endpoints connected to cache
-        latencies : array-like, latency in ms for each endpoint
         '''
         self.total_storage = storage
-        self.endpoints = endpoints
-        self.latencies = latencies
-        self.num_endpoints = len(endpoints)
         self.videos = []
         self.storage = storage
 
@@ -19,7 +14,7 @@ class Cache(object):
         '''
         Add video. If succesful, return True. Otherwise False
         '''
-        if storage>=video,memory:
+        if storage>=video.memory:
             self.videos.append(video)
             self.storage -= video.memory
             return True
@@ -44,19 +39,23 @@ class Video(object):
         self.memory = memory
 
 class Endpoint(object):
-    def __init__(self, data_center_latency, caches, cache_latencies, videos, requests)
+    def __init__(self, data_center_latency):
         '''
         data_center_latency : float, latency from data center, ms
-        caches: array-like, contains connected caches
-        cache_latencies : array-like, list of latencies from each connected cache
-        videos: list of requested videos
-        requests: list of number of requests per video
         '''
         self.data_center_latency = data_center_latency
-        self.caches = caches
-        self.cache_latencies = cache_latencies
-        self.videos = videos
-        self.requests = requests
+        self.caches = []
+        self.cache_latencies = []
+        self.videos = []
+        self.requests = []
+
+    def add_cache(self, cache, latency):
+        self.caches.append(cache)
+        self.cache_latencies.append(latency)
+
+    def add_video(self, video, requests):
+        self.videos.append(video)
+        self.requests.append(requests)
 
     def get_requests(self,video):
         '''
@@ -79,3 +78,7 @@ def move_video( video, from_point, to_point):
         return True
     return False
 
+def OOify( V,E,R,C,X,video_sizes,latencies,num_caches,requests):
+    videos=[]
+    for size in video_sizes:
+        videos.append(Video(size))
