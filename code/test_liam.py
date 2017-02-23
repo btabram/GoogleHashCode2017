@@ -20,3 +20,4 @@ C.add_video(v2)
 print( v2 in E.videos )
 print( v4 in E.videos )
 print( v2 in E.caches[E.caches.index(C)].videos )
+print( v2 in C.endpoints
