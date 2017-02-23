@@ -73,7 +73,7 @@ class Endpoint(object):
             return self.requests[self.videos.index(video)]
         return 0
 
-    def get_best_cach(self):
+    def get_best_cache(self):
         ''' 
         find the best cache - the one which has fewest other nodes
         '''
