@@ -36,7 +36,10 @@ def do_the_stuff():
     requests = get_requests()
 
     # loop over all requests
+    oneperc = np.ceil(R/100)
     for i in range(0,R):
+        if i%oneperc==0:
+            print(i/R, '% complete')
 
         # get the biggest request
         max_v, max_e = find_max_request(requests)
